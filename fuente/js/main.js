@@ -201,6 +201,77 @@ $(document).ready(function() {
             throw error;
         }
     }
+
+    function crearBotonesDeAccion(gato) {
+
+        // Botón de favorito
+        const botonFavorito = $('<button>').html('<i class="fas fa-heart"></i>').addClass('boton-favorito');
+        const sesionIniciada = JSON.parse(localStorage.getItem('sesion_iniciada')) || {};
+        const favoritos = sesionIniciada.favoritos || [];
+        if (favoritos.includes(gato.breeds[0].id)) {
+            // Si el ID del producto está en la lista de favoritos, aplicar un estilo diferente
+            botonFavorito.addClass('favorito-activo');
+        }
+        botonFavorito.click(function(evento) {
+            evento.stopPropagation();
+    
+            // Obtener el objeto sesion_iniciada del localStorage
+            let sesionIniciada = JSON.parse(localStorage.getItem('sesion_iniciada')) || {};
+    
+            // Verificar si ya existe un array de favoritos, si no, crear uno vacío
+            let favoritos = sesionIniciada.favoritos || [];
+    
+            // Obtener el ID del producto al que se le ha dado favorito
+            let idGato = gato.breeds[0].id;
+    
+            // Verificar si el producto ya está en la lista de favoritos
+            if (!favoritos.includes(idGato)) {
+                // Agregar el ID del producto a la lista de favoritos
+                favoritos.push(idGato);
+                // Agregar el estilo de favorito activo al botón
+                botonFavorito.addClass('favorito-activo');
+            } else {
+                // Si el producto ya está en la lista de favoritos, quitarlo de la lista y el estilo de favorito activo del botón
+                favoritos.forEach((item, index) => {
+                    if (item === idGato) {
+                        favoritos.splice(index, 1); // Eliminar el elemento de la lista de favoritos
+                        botonFavorito.removeClass('favorito-activo'); // Quitar el estilo de favorito activo del botón
+                    }
+                });
+            }
+    
+            // Actualizar el objeto sesion_iniciada en el localStorage con la lista de favoritos actualizada
+            sesionIniciada.favoritos = favoritos;
+            localStorage.setItem('sesion_iniciada', JSON.stringify(sesionIniciada));
+        });
+        
+        
+        // Botón de me gusta
+        let meGustaCount = localStorage.getItem(`MeGustaCount-${gato.breeds[0].id}`) || 0;
+        const botonMeGusta = $('<button>').html('<i class="fas fa-thumbs-up"></i>').addClass('boton-me-gusta').attr('id', `boton-me-gusta-${gato.breeds[0].id}`).text("Me gusta (" + meGustaCount + ")").click(function(evento) {
+            evento.stopPropagation();
+            meGustaCount = localStorage.getItem(`MeGustaCount-${gato.breeds[0].id}`) || 0;
+            meGustaCount++;
+            localStorage.setItem(`MeGustaCount-${gato.breeds[0].id}`, meGustaCount);
+            botonMeGusta.text(`Me gusta (${meGustaCount})`);
+        });
+    
+        // Botón de no me gusta
+        let noMeGustaCount = localStorage.getItem(`NoMeGustaCount-${gato.breeds[0].id}`) || 0;
+        const botonNoMeGusta = $('<button>').html('<i class="fas fa-thumbs-down"></i>').addClass('boton-no-me-gusta').attr('id', `boton-no-me-gusta-${gato.breeds[0].id}`).text("No me gusta (" + noMeGustaCount + ")").click(function(evento) {
+            evento.stopPropagation();
+            noMeGustaCount = localStorage.getItem(`NoMeGustaCount-${gato.breeds[0].id}`) || 0;
+            noMeGustaCount++;
+            localStorage.setItem(`NoMeGustaCount-${gato.breeds[0].id}`, noMeGustaCount);
+            botonNoMeGusta.text(`No me gusta (${noMeGustaCount})`);
+        });
+    
+        return {
+            botonFavorito: botonFavorito,
+            botonMeGusta: botonMeGusta,
+            botonNoMeGusta: botonNoMeGusta
+        };
+    }
     
     // Función para generar una fila con los datos de un gato
     function generarFilaTablaGato(gatoData) {
@@ -210,9 +281,17 @@ $(document).ready(function() {
         var raza = gato.breeds[0].name;
         var nombre = gato.breeds[0].id;
     
+        let botones = crearBotonesDeAccion(gato);
+        let celdaBotones = $("<td>").attr("class", "botonera");
+        celdaBotones.append(botones.botonFavorito);
+        celdaBotones.append(botones.botonMeGusta);
+        celdaBotones.append(botones.botonNoMeGusta);
+
+        
         fila.append($("<td>").append(imagen));
         fila.append($("<td>").text(nombre));
         fila.append($("<td>").text(raza));
+        fila.append(celdaBotones);
     
         return fila;
     }
@@ -223,15 +302,22 @@ $(document).ready(function() {
         var imagen = $("<img>").attr("src", gato.url).attr("alt", "Imagen de gato").attr("width", "30%");
         var raza = gato.breeds[0].name;
         var nombre = gato.breeds[0].id;
-    
+
+        let botones = crearBotonesDeAccion(gato);
+        let btn = $("<div>").attr("class", "botonera");
+        btn.append(botones.botonFavorito);
+        btn.append(botones.botonMeGusta);
+        btn.append(botones.botonNoMeGusta);
+
         li.append($("<p>").append(imagen));
         li.append($("<p>").text(nombre));
         li.append($("<p>").text(raza));
+        li.append(btn);
     
         return li;
     }
     
-    var encabezado = $("<thead>").append("<tr><th>Imagen</th><th>Nombre</th><th>Raza</th></tr>");
+    var encabezado = $("<thead>").append("<tr><th>Imagen</th><th>Nombre</th><th>Raza</th><th>Acciones</th></tr>");
     tablaGatos.append(encabezado);
     // Función para agregar datos de gatos a la tabla
     function crearGatosTabla(datosGatos) {

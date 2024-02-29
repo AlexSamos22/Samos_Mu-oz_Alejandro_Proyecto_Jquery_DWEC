@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../node_modules/jquery/dist/jquery.min.js" defer></script>
+    <link rel="stylesheet" href="../estilos/login.css">
+    <script src="../js/login.js" defer></script>
+</head>
+<body>
+    <header>
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+        </ul>
+    </header>
+
+    <form id="login">
+        <h2>LOGIN</h2>
+        <label for="nombre">Nombre de usuario</label>
+        <input type="text" id="nombre" placeholder="Usuario">
+        <label for="clave">Contraseña</label>
+        <input type="password" id="clave" placeholder="Contraseña">
+        <button type="submit" id="inciar_sesion">Inicar sesion</button>
+       <button id="abrir_registro">Registrarse</button>
+    </form>
+
+    <form id="registro" class="oculto">
+        <h2>Registro</h2>
+
+        <label for="usuario">Nombre de usuario</label>
+        <input type="text" id="usuario" placeholder="Usuario" required>
+
+        <label for="correo">Correo</label>
+        <input type="email" id="correo" placeholder="correo" required>
+
+        <label for="Clave">Contraseña</label>
+        <input type="password" id="Clave" placeholder="Contraseña" required>
+
+        <label for="Nombre">Nombre</label>
+        <input type="text" id="Nombre" placeholder="Nombre" required>
+
+        <label for="apellidos">Apellidos</label>
+        <input type="text" id="apellidos" placeholder="apellidos" required>
+
+        <label for="telf">Telefono</label>
+        <input type="number" id="telefono" placeholder="Telefono" required>
+
+        <label for="edad">Edad</label>
+        <input type="number" id="edad" placeholder="Edad" min="10" max="100" required>
+
+        <label for="dni">DNI</label>
+        <input type="text" id="dni" placeholder="DNI" required>
+
+        <button type="submit" id="registarse">Registarse</button>
+        <button id="abrir_login">Ya tienes una cuenta? Inicia Sesion</button>
+    </form>
+</body>
+</html>
