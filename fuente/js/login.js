@@ -17,8 +17,8 @@ $(document).ready(function() {
 
     //Funcion que comprueba si el usuario existe
     function comprobarUsuario_local(nombreUsuario, contrasena) {
-        let usuarioGuardado = JSON.parse(localStorage.getItem(nombreUsuario));
-
+        let usuarioGuardado = JSON.parse(localStorage.getItem(`${nombreUsuario}_gato`));
+        console.log(usuarioGuardado);
         if (usuarioGuardado) {
             if (usuarioGuardado.contrasena === contrasena) {
                 return true;
@@ -41,7 +41,8 @@ $(document).ready(function() {
             if (usuario_local) {
                 alert("Sesion iniciada");
 
-                let sesionNombreUsuario = JSON.parse(localStorage.getItem(nombre_usuario));
+                let sesionNombreUsuario = JSON.parse(localStorage.getItem(`${nombre_usuario}_gato`));
+                console.log(sesionNombreUsuario);
                 let listaFavoritos = [];
 
                 if (sesionNombreUsuario) {
@@ -52,7 +53,7 @@ $(document).ready(function() {
                     nombreUsuario: nombre_usuario,
                     favoritos: listaFavoritos
                 };
-                localStorage.setItem('sesion_iniciada', JSON.stringify(sesionIniciada));
+                localStorage.setItem('sesion_iniciada_gatos', JSON.stringify(sesionIniciada));
 
                 window.location.href = "../index.html";
             } else {
@@ -81,7 +82,7 @@ $(document).ready(function() {
             favoritos: [],
         };
 
-        localStorage.setItem(usuarioInput.val(), JSON.stringify(usuarios));
+        localStorage.setItem(`${usuarioInput.val()}_gato`, JSON.stringify(usuarios));
 
         alert("Usuario creado con exito");
         login.removeClass('oculto');

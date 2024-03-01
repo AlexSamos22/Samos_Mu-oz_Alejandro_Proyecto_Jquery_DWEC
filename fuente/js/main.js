@@ -5,6 +5,7 @@ $(document).ready(function() {
     let desc = $('#desc');
     let titulo = $('#titulo');
     let botones = $('#botones');
+    let cerrarSesion = $('#cerrar_sesion');
     let vista = "lista";
     let tipoOrden = "RAND";
     let contenedor = $('#gatos');
@@ -60,6 +61,46 @@ $(document).ready(function() {
         }
        
     })
+
+    cerrarSesion.click((evento) => {
+        evento.preventDefault();
+    
+        // Obtener la sesión actual del usuario
+        let sesionIniciada = JSON.parse(localStorage.getItem('sesion_iniciada_gatos'));
+    
+        if (sesionIniciada) {
+            // Obtener el nombre de usuario
+            let nombreUsuario = sesionIniciada.nombreUsuario;
+    
+            // Obtener los favoritos del usuario actual
+            let usuario = JSON.parse(localStorage.getItem(`${nombreUsuario}_gato`));
+            let nuevosFavoritos = sesionIniciada.favoritos || [];
+            if (!usuario) {
+                usuario = {
+                    nombreUsuario: nombreUsuario,
+                    favoritos: []
+                };
+            }
+    
+            usuario.favoritos = [];
+    
+            // Agregar los nuevos favoritos a la lista existente de favoritos del usuario
+            usuario.favoritos.push(...nuevosFavoritos);
+    
+            // Guardar los cambios en el localStorage
+            localStorage.setItem(`${nombreUsuario}_gato`, JSON.stringify(usuario));
+    
+            // Eliminar la sesión actual
+            localStorage.removeItem('sesion_iniciada_gatos');
+    
+            alert("Hasta la próxima");
+            // Redirigir al usuario a la página de inicio de sesión o a donde desees
+            window.location.href = "../fuente/html/login.html";
+        } else {
+            // Si no hay sesión iniciada, simplemente redirige al usuario
+            alert("No hay sesión iniciada");
+        }
+    });
 
     //Funcion que obtiene de una de las APIS las razas que tiene y las guarda en un array
     async function obtenerDatosFacts() {
@@ -200,7 +241,7 @@ $(document).ready(function() {
     function crearBotonesDeAccion(gato) {
         // Botón de favorito
         const botonFavorito = $('<button>').html('<i class="fas fa-heart"></i>').addClass('boton-favorito');
-        const sesionIniciada = JSON.parse(localStorage.getItem('sesion_iniciada')) || {};
+        const sesionIniciada = JSON.parse(localStorage.getItem('sesion_iniciada_gatos')) || {};
         const favoritos = sesionIniciada.favoritos || [];
         if (favoritos.includes(gato.breeds[0].id)) {
             // Si el ID del producto está en la lista de favoritos, aplicar un estilo diferente
@@ -210,7 +251,7 @@ $(document).ready(function() {
             evento.stopPropagation();
     
             // Obtener el objeto sesion_iniciada del localStorage
-            let sesionIniciada = JSON.parse(localStorage.getItem('sesion_iniciada')) || {};
+            let sesionIniciada = JSON.parse(localStorage.getItem('sesion_iniciada_gatos')) || {};
 
             if (!sesionIniciada) {
                 alert("Debes iniciar sesion para añadir un gato a favoritos")
@@ -239,7 +280,7 @@ $(document).ready(function() {
         
                 // Actualizar el objeto sesion_iniciada en el localStorage con la lista de favoritos actualizada
                 sesionIniciada.favoritos = favoritos;
-                localStorage.setItem('sesion_iniciada', JSON.stringify(sesionIniciada));
+                localStorage.setItem('sesion_iniciada_gatos', JSON.stringify(sesionIniciada));
                 }
         });
         
