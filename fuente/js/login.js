@@ -15,11 +15,12 @@ $(document).ready(function() {
     let edadInput = $('#edad');
     let dniInput = $('#dni');
 
-    function comprobarUsuario_local(nombreUsuario, contraseña) {
+    //Funcion que comprueba si el usuario existe
+    function comprobarUsuario_local(nombreUsuario, contrasena) {
         let usuarioGuardado = JSON.parse(localStorage.getItem(nombreUsuario));
 
         if (usuarioGuardado) {
-            if (usuarioGuardado.contraseña === contraseña) {
+            if (usuarioGuardado.contrasena === contrasena) {
                 return true;
             } else {
                 return false;
@@ -29,6 +30,7 @@ $(document).ready(function() {
         }
     }
 
+    //Evento que llama a la funcion de comprobar usuario y si la respuesta es true carga su lista de favoritos y su nombre en la sesion_iniciada
     iniciar_session.click(async function(evento) {
         evento.preventDefault();
         let nombre_usuario = $('#nombre').val();
@@ -61,13 +63,14 @@ $(document).ready(function() {
         }
     });
 
+    //Funcion que registra a un usuario
     registrarse.click(function(evento) {
         evento.preventDefault();
 
         let usuarios = {
             nombreUsuario: usuarioInput.val(),
             correo: correoInput.val(),
-            contraseña: claveInput.val(),
+            contrasena: claveInput.val(),
             nombre: {
                 nombre: nombreInput.val(),
                 apellidos: apellidosInput.val()
@@ -85,12 +88,14 @@ $(document).ready(function() {
         registro.addClass('oculto');
     });
 
+    //Evento para abrir el registro y ocultar el login
     abrir_registro.click(function(evento) {
         evento.preventDefault();
         registro.removeClass('oculto');
         login.addClass('oculto');
     });
 
+    //Evento para ocultar el registro y mostrar el login
     abrir_login.click(function(evento) {
         evento.preventDefault();
         login.removeClass('oculto');

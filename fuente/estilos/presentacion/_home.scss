@@ -1,0 +1,197 @@
+#botones {
+    text-align: center;
+    margin-bottom: 10px;
+    button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+        &:hover {
+            background-color: #0056b3;
+        }
+    }
+
+    #desc,
+    #asc {
+        background-color: #6c757d;
+
+        &:hover {
+            background-color: #5a6268;
+        }
+    }
+}
+
+.gatos {
+    .lista-gatos {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 40%;
+        /* Ancho del 50% */
+        margin: 0 auto;
+        /* Centrar horizontalmente */
+
+        li {
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center; 
+
+            &:hover{
+                cursor: pointer;
+                background-color: #e2d6d6;
+                transform: translateY(-3%);
+            }
+            
+
+            img {
+                width: 30%;
+                margin: 0 auto 10px;
+                border-radius: 8px;
+            }
+
+            h3 {
+                margin: 0;
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            p {
+                margin: 5px 0;
+                font-size: 16px;
+            }
+
+            .botonera {
+                text-align: center;
+                /* Centrar botones */
+                margin-top: 10px;
+
+                button {
+                    background-color: #343a40;
+                    color: #fff;
+                    border: none;
+                    padding: 8px 16px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    margin-right: 10px;
+                    transition: background-color 0.3s ease;
+
+                    &:hover {
+                        background-color: #23272b;
+                    }
+                }
+            }
+        }
+    }
+
+    .tabla-gatos {
+        width: 80%;
+        border-collapse: collapse;
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr {
+            &:hover {
+                cursor: pointer;
+                background-color: #e2d6d6;
+                transform: translateY(-3%);
+            }
+        }
+
+        img {
+            width: 200px;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+
+        .botonera {
+            text-align: center;
+            width: 40%;
+
+            button {
+                background-color: #343a40;
+                color: #fff;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-right: 5px;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: #23272b;
+                }
+            }
+        }
+    }
+
+    .caract-raza {
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+
+        img {
+            width: 200px;
+            height: auto;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .caract-medidas, .caract-origen {
+            display: flex;
+            align-items: center;
+        }
+
+        p {
+            margin: 5px 0;
+            margin-right: 25px;
+        }
+
+        .caract-wiki{
+            margin-top: 10px;
+            margin-bottom: 20px;
+
+            a{
+                text-decoration: none;
+                color: #4CAF50;
+
+                &:hover{
+                    color: #45a049;
+                }
+            }
+        }
+
+        .volver {
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover{
+                background-color: #45a049;
+            }
+        }
+        
+    }
+}

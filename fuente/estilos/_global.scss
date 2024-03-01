@@ -1,0 +1,17 @@
+body{
+    margin: 0;
+}
+
+#titulo {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.oculto{
+    display: none;
+}
+
+.favorito-activo{
+    background-color: red !important;
+}

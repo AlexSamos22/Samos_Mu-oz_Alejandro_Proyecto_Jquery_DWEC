@@ -1,0 +1,17 @@
+.gatos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .lista-gatos{
+        img{
+            display: block;
+        }
+    }
+
+    .tabla-gatos{
+        img{
+            display: block;
+        }
+    }
+}

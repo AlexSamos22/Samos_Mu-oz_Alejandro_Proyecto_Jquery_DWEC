@@ -1,0 +1,49 @@
+header {
+    background-color: #333; 
+    padding: 10px 0;
+    
+    ul{
+        list-style-type: none; 
+        margin: 0;
+        padding: 0;
+        text-align: center; 
+
+        li{
+            margin-right: 20px;
+            
+            a{
+                color: #fff; 
+                text-decoration: none; 
+                padding: 10px; 
+                transition: background-color 0.3s;
+                
+                &:hover{
+                    background-color: #555; 
+                    border-radius: 5px; 
+                }
+
+                .fa-shopping-cart {
+                    color: #fff; 
+                    font-size: 20px; 
+                    vertical-align: middle; 
+                }
+            }
+        }
+
+        .carrito{
+            position: relative;
+        }
+        .animacion-carrito {
+            display: inline-block;
+            animation: animacion 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+    }
+}
+
+@keyframes animacion {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px) rotate(-5deg); }
+    50% { transform: translateX(5px) rotate(5deg); }
+    75% { transform: translateX(-5px) rotate(-5deg); }
+    100% { transform: translateX(0); }
+}
