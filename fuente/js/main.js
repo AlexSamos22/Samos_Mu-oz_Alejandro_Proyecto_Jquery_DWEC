@@ -387,7 +387,6 @@ $(document).ready(function() {
                     renderizarTabla(datosGatosGlobal);
                 }
             }
-            //location.reload();
         });
 
         contenedorCaracteristicas.append(contenedorImg);
