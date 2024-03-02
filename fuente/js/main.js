@@ -262,11 +262,12 @@ $(document).ready(function() {
             // Si el ID del producto está en la lista de favoritos, aplicar un estilo diferente
             botonFavorito.addClass('favorito-activo');
         }
+
         botonFavorito.click(function(evento) {
             evento.stopPropagation();
     
             // Obtener el objeto sesion_iniciada del localStorage
-            let sesionIniciada = JSON.parse(localStorage.getItem('sesion_iniciada_gatos')) || {};
+            let sesionIniciada = JSON.parse(localStorage.getItem('sesion_iniciada_gatos'));
 
             if (!sesionIniciada) {
                 alert("Debes iniciar sesion para añadir un gato a favoritos")
@@ -329,7 +330,8 @@ $(document).ready(function() {
 
     //Fucnion que genera la informacion adicional del gato al que se le de click
     async  function crearInfomacionRaza(gato){
-        let idRaza = gato.breeds[0].id;
+        let idRaza = gato.breeds[0].id; //sacar la id del gato al que se le hizo click
+        //Pedir 3 gatos de la misma raza para poder tener al menos 3 imagenes que mostrar
         let url = `https://api.thecatapi.com/v1/images/search?limit=3&breed_ids=${idRaza}&api_key=live_vIcm09jTwDDE89WlD2S9JAEn5wz1laQkoJuiuHGcvAUTc3noy8MwpyhL0m6oBpDO`;
         let gatosRaza = [];
 
@@ -346,11 +348,13 @@ $(document).ready(function() {
         //Contenedor de las imagenes
         let contenedorImg = $("<div>").attr("class", "imagenes-raza");
 
+        //Recorrer los gatos obtenidos para sacar las 3 imagenes
         gatosRaza.forEach((gato) =>{
             let img = $("<img>").attr("src", gato.url)
             contenedorImg.append(img);
         });
 
+        //Contenedro que almacenara toda la informacion sobre la raza selecionada
         let contenedorCaracteristicas = $("<div>").attr("class", "caract-raza");
 
         let contenedorMedidas = $("<div>").attr("class", "caract-medidas");
@@ -379,12 +383,9 @@ $(document).ready(function() {
 
         let volver = $("<buttom>").attr("class", "volver").text("Volver");
 
+        //Evento para el boton de volver que al pulsarlo te vuelve a generar con la vista en la que estabas los gatos
         volver.click(()=>{
-            titulo.text("Informacion Gatos");
-            botones.removeClass("oculto");
-            obtenerDatosGatos().then(function(datosGatos) {
-                renderizarLista(datosGatos);
-            });
+            location.reload();
         });
 
         contenedorCaracteristicas.append(contenedorImg);
