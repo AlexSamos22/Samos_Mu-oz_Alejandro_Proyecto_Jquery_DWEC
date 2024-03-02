@@ -141,54 +141,46 @@ $(document).ready(function() {
         }
     }
 
-    //Funcion que obtiene las razas que tiene la otra API y las guarda en un array
-    async function obtenerBreeds() {
-        try {
-            // URL para obtener los 25 primeros breeds
-            let url = "https://api.thecatapi.com/v1/breeds?limit=25";
-    
-            // Realiza la solicitud AJAX utilizando jQuery
-            let respuesta = await $.ajax({
-                url: url,
-                method: "GET",
-                dataType: "json"
-            });
-    
-            // Array para almacenar los breeds con id y name
-            let breeds = [];
-    
-            // Itera sobre la respuesta y almacena los breeds con id y name en el array
-            respuesta.forEach((breed) => {
-                breeds.push({
-                    id: breed.id,
-                    name: breed.name
-                });
-            });
-            return breeds;
-        } catch (error) {
-            console.error('Error al obtener breeds:', error);
-            throw error;
-        }
-    }
-
     //Funcion que compara las razas de ambas APIS y se queda solo con las que coinciden
-    async function obtenerIdsRazasCoincidentes() {
-        try {
-            // Obtener los breeds y los facts
-            let breeds = await obtenerBreeds();
-            let facts = await obtenerDatosFacts();
+    function obtenerIdsRazasCoincidentes() {
+        // Retorna una promesa para manejar la asincronía
+        return new Promise(function(resolve, reject) {
+            // Obtener los breeds
+            $.ajax({
+                url: "https://api.thecatapi.com/v1/breeds?limit=25",
+                method: "GET",
+                dataType: "json",
+                success: function(respuestaBreeds) {
+                    // Obtener los facts después de obtener los breeds
+                    obtenerDatosFacts().then(function(facts) {
+                        try {
+                            // Array para almacenar los IDs de las razas coincidentes
+                            let idsRazasCoincidentes = [];
     
-            // Filtrar breeds coincidentes con los facts
-            let breedsCoincidentes = breeds.filter(breed => facts.includes(breed.name));
+                            // Filtrar breeds coincidentes con los facts
+                            respuestaBreeds.forEach(function(breed) {
+                                if (facts.includes(breed.name)) {
+                                    idsRazasCoincidentes.push(breed.id);
+                                }
+                            });
     
-            // Obtener solo los IDs de las razas coincidentes
-            let idsRazasCoincidentes = breedsCoincidentes.map(breed => breed.id);
-    
-            return idsRazasCoincidentes;
-        } catch (error) {
-            console.error('Error al obtener IDs de razas coincidentes:', error);
-            throw error;
-        }
+                            // Resuelve la promesa con los IDs de las razas coincidentes
+                            resolve(idsRazasCoincidentes);
+                        } catch (error) {
+                            // Rechaza la promesa si ocurre un error
+                            reject('Error al obtener IDs de razas coincidentes:', error);
+                        }
+                    }).catch(function(error) {
+                        // Rechaza la promesa si ocurre un error al obtener los facts
+                        reject('Error al obtener datos de facts:', error);
+                    });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Rechaza la promesa si ocurre un error al obtener los breeds
+                    reject('Error al obtener breeds:', errorThrown);
+                }
+            });
+        });
     }
 
     //Funcion que saca un campo de cada raza de gatos que contiene la API para evitar repeticiones de la misma raza
