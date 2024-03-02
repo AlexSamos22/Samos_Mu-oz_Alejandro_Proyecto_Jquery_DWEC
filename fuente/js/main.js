@@ -19,7 +19,6 @@ $(document).ready(function() {
     function obtenerYAlmacenarDatosGatos() {
         obtenerDatosGatos().then(function(datosGatos) {
             datosGatosGlobal = datosGatos;
-            console.log(datosGatosGlobal);
             renderizarLista(datosGatosGlobal); //renderizar la lista por defecto
         });
     }
@@ -200,11 +199,8 @@ $(document).ready(function() {
             try {
                 // Obtener nombres de razas y sus IDs
                 obtenerIdsRazasCoincidentes().then(function(razas) {
-                    // Array para almacenar las respuestas de las razas
-                    let respuestaRazas = [];
-    
                     // Realizar todas las solicitudes de imágenes en paralelo
-                    let promesasImagenes = razas.map(function(raza) {
+                    let promesasDatosGatos = razas.map(function(raza) {
                         let url = `https://api.thecatapi.com/v1/images/search?limit=1&breed_ids=${raza}&api_key=live_vIcm09jTwDDE89WlD2S9JAEn5wz1laQkoJuiuHGcvAUTc3noy8MwpyhL0m6oBpDO`;
     
                         // Realizar la solicitud AJAX 
@@ -212,22 +208,17 @@ $(document).ready(function() {
                             url: url,
                             method: 'GET',
                             dataType: 'json'
-                        }).then(function(datosImagen) {
-                            // Agregar la respuesta de la raza al array de respuestas
-                            respuestaRazas.push(datosImagen);
                         });
                     });
     
                     // Esperar a que todas las promesas de imágenes se resuelvan
-                    $.when.apply($, promesasImagenes).then(function() {
-                        
-                        // Resolver la promesa con las respuestas ordenadas
-                        resolve(respuestaRazas);
-                        //si falla la obtencion de las imagenes se lanza el error
-                    }).fail(function(_, textStatus, errorThrown) {
-                        // Lanzar un mensaje de error que indicara timeout, error, abort o parsererror
-                        console.error('Error en la solicitud AJAX:', textStatus, errorThrown);
-                        reject(errorThrown);
+                    Promise.all(promesasDatosGatos).then(function(respuestasImagenes) {
+                        // Resolver la promesa con las respuestas de las imágenes
+                        resolve(respuestasImagenes);
+                    }).catch(function(error) {
+                        // Manejar errores al obtener las imágenes
+                        console.error('Error al obtener datos de los gatos:', error);
+                        reject(error);
                     });
                 }).catch(function(error) {
                     // Manejar errores al obtener las razas
