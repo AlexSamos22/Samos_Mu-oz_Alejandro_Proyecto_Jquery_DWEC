@@ -175,7 +175,7 @@ $(document).ready(function() {
                         reject('Error al obtener datos de facts:', error);
                     });
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
+                error: function(errorThrown) {
                     // Rechaza la promesa si ocurre un error al obtener los breeds
                     reject('Error al obtener breeds:', errorThrown);
                 }
