@@ -95,7 +95,7 @@ $(document).ready(function() {
     
             alert("Hasta la próxima");
             // Redirigir al usuario a la página de inicio de sesión o a donde desees
-            window.location.href = "../fuente/html/login.html";
+            location.reload();
         } else {
             // Si no hay sesión iniciada, simplemente redirige al usuario
             alert("No hay sesión iniciada");
