@@ -191,66 +191,7 @@ $(document).ready(function() {
         }
     }
 
-    //Funcion que saca un campo de cada raza de gatos que contiene la API para evitar repeticiones de la misma raza
-    function obtenerDatosGatos() {
-        return new Promise(function(resolve, reject) {
-            try {
-                // Obtener nombres de razas y sus IDs
-                obtenerIdsRazasCoincidentes().then(function(razas) {
-                    // Array para almacenar las respuestas de las razas
-                    let respuestaRazas = [];
-    
-                    // Realizar todas las solicitudes de imágenes en paralelo
-                    let promesasImagenes = razas.map(function(raza) {
-                        let url = `https://api.thecatapi.com/v1/images/search?limit=1&breed_ids=${raza}&api_key=live_vIcm09jTwDDE89WlD2S9JAEn5wz1laQkoJuiuHGcvAUTc3noy8MwpyhL0m6oBpDO`;
-    
-                        // Realizar la solicitud AJAX 
-                        return $.ajax({
-                            url: url,
-                            method: 'GET',
-                            dataType: 'json'
-                        }).then(function(datosImagen) {
-                            // Agregar la respuesta de la raza al array de respuestas
-                            respuestaRazas.push(datosImagen);
-                        });
-                    });
-    
-                    // Esperar a que todas las promesas de imágenes se resuelvan
-                    $.when.apply($, promesasImagenes).then(function() {
-                        // Ordenar las respuestas de las razas por nombre de raza
-                        respuestaRazas.sort(function(a, b) {
-                            let nombreA = a[0].breeds[0].name.toLowerCase();
-                            let nombreB = b[0].breeds[0].name.toLowerCase();
-                        
-                            if (tipoOrden === "ASC") {
-                                return nombreA.localeCompare(nombreB);
-                            } else if (tipoOrden === "DESC") {
-                                return nombreB.localeCompare(nombreA);
-                            } else {
-                                return 0; // No hay cambio en el orden si el tipo de orden no es válido
-                            }
-                        });
-    
-                        // Resolver la promesa con las respuestas ordenadas
-                        resolve(respuestaRazas);
-                        //si falla la obtencion de las imagenes se lanza el error
-                    }).fail(function(_, textStatus, errorThrown) {
-                        // Lanzar un mensaje de error que indicara timeout, error, abort o parsererror
-                        console.error('Error en la solicitud AJAX:', textStatus, errorThrown);
-                        reject(errorThrown);
-                    });
-                }).catch(function(error) {
-                    // Manejar errores al obtener las razas
-                    console.error('Error al obtener IDs de razas:', error);
-                    reject(error);
-                });
-            } catch (error) {
-                // Manejar otros errores
-                console.error('Error al obtener datos de gatos:', error);
-                reject(error);
-            }
-        });
-    }
+
 
     //Funcion que crea los botones de favorios, me gusta y no me gusta
     function crearBotonesDeAccion(gato) {
