@@ -365,8 +365,29 @@ $(document).ready(function() {
         let volver = $("<buttom>").attr("class", "volver").text("Volver");
 
         //Evento para el boton de volver que al pulsarlo te vuelve a generar con la vista en la que estabas los gatos
-        volver.click(()=>{
-            location.reload();
+        volver.click((evento)=>{
+            contenedor.empty();
+            titulo.text("Informacion gatos");
+            botones.removeClass("oculto");
+            evento.stopPropagation();
+            if (vista == "lista") {
+                if (tipoOrden === "ASC") {
+                    renderizarLista(datosGatosGlobal.sort((a, b) => a[0].breeds[0].name.localeCompare(b[0].breeds[0].name)));
+                } else if (tipoOrden === "DESC") {
+                    renderizarLista(datosGatosGlobal.sort((a, b) => b[0].breeds[0].name.localeCompare(a[0].breeds[0].name)));
+                } else {
+                    renderizarLista(datosGatosGlobal);
+                }
+            }else{
+                if (tipoOrden === "ASC") {
+                    renderizarTabla(datosGatosGlobal.sort((a, b) => a[0].breeds[0].name.localeCompare(b[0].breeds[0].name)));
+                } else if (tipoOrden === "DESC") {
+                    renderizarTabla(datosGatosGlobal.sort((a, b) => b[0].breeds[0].name.localeCompare(a[0].breeds[0].name)));
+                } else {
+                    renderizarTabla(datosGatosGlobal);
+                }
+            }
+            //location.reload();
         });
 
         contenedorCaracteristicas.append(contenedorImg);
@@ -387,7 +408,8 @@ $(document).ready(function() {
     function generarFilaTablaGato(gatoData) {
         var gato = gatoData[0]; 
         var fila = $("<tr>");
-        fila.click(()=>{
+        fila.click((evento)=>{
+            evento.stopPropagation();
             crearInfomacionRaza(gato);
         });
         var imagen = $("<img>").attr("src", gato.url).attr("alt", "Imagen de gato").attr("width", "30%");
@@ -413,7 +435,8 @@ $(document).ready(function() {
     function generarElementosListaGato(gatoData) {
         var gato = gatoData[0]; 
         var li = $("<li>");
-        li.click(()=>{
+        li.click((evento)=>{
+            evento.stopPropagation();
             crearInfomacionRaza(gato);
         });
         var imagen = $("<img>").attr("src", gato.url).attr("alt", "Imagen de gato").attr("width", "30%");
@@ -480,12 +503,14 @@ $(document).ready(function() {
     //Funcion que genera la vista lista
     function renderizarLista(datosGatos){
         contenedor.empty();
+        ul.empty();
         contenedor.append(crearGatosLista(datosGatos));
     }
     
     //Funcion que genera la vista tabla
     function renderizarTabla(datosGatos){
         contenedor.empty();
+        cuerpo.empty();
         contenedor.append(crearGatosTabla(datosGatos));
     }
 
