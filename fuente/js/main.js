@@ -13,54 +13,65 @@ $(document).ready(function() {
     let cuerpo = $("<tbody>");
     let ul = $("<ul>").addClass("lista-gatos");
 
-    //Evento que cambia la vista de los gatos a lista
-    lista.click(() =>{
-        vista = "lista";
+    let datosGatosGlobal = [];
+
+    //Obtener los datos iniciales y guardarlos en un array
+    function obtenerYAlmacenarDatosGatos() {
         obtenerDatosGatos().then(function(datosGatos) {
-            renderizarLista(datosGatos);
+            datosGatosGlobal = datosGatos;
+            console.log(datosGatosGlobal);
+            renderizarLista(datosGatosGlobal); //renderizar la lista por defecto
         });
+    }
+
+    //Evento que cambia la vista de los gatos a lista
+    lista.click(() => {
+        vista = "lista";
+        if (tipoOrden === "ASC") {
+            renderizarLista(datosGatosGlobal.sort((a, b) => a[0].breeds[0].name.localeCompare(b[0].breeds[0].name)));
+        } else if (tipoOrden === "DESC") {
+            renderizarLista(datosGatosGlobal.sort((a, b) => b[0].breeds[0].name.localeCompare(a[0].breeds[0].name)));
+        } else {
+            renderizarLista(datosGatosGlobal);
+        }
     });
 
     //Evento que cambia la vista de los gatos a tabla
-    tabla.click(() =>{
+    tabla.click(() => {
         vista = "tabla";
-        obtenerDatosGatos().then(function(datosGatos) {
-            renderizarTabla(datosGatos);
-        });
+        if (tipoOrden === "ASC") {
+            renderizarTabla(datosGatosGlobal.sort((a, b) => a[0].breeds[0].name.localeCompare(b[0].breeds[0].name)));
+        } else if (tipoOrden === "DESC") {
+            renderizarTabla(datosGatosGlobal.sort((a, b) => b[0].breeds[0].name.localeCompare(a[0].breeds[0].name)));
+        } else {
+            renderizarTabla(datosGatosGlobal);
+        }
     });
 
-    //Evento que ordena de forma ascendente los gatos por raza
-    asc.click(() =>{
+    // Eventos para ordenar los gatos ascendente o descendentemente
+    asc.click(() => {
         tipoOrden = "ASC";
         if (vista == "lista") {
             ul.empty();
-            obtenerDatosGatos().then(function(datosGatos) {
-                renderizarLista(datosGatos);
-            });
-        }else{
+            renderizarLista(datosGatosGlobal.sort((a, b) => a[0].breeds[0].name.localeCompare(b[0].breeds[0].name)));
+        } else {
             cuerpo.empty();
-            obtenerDatosGatos().then(function(datosGatos) {
-                renderizarTabla(datosGatos);
-            });
+            renderizarTabla(datosGatosGlobal.sort((a, b) => a[0].breeds[0].name.localeCompare(b[0].breeds[0].name)));
         }
     });
-    
-    //Evento que ordena de forma descendente los gatos por raza
-    desc.click(() =>{
+
+    desc.click(() => {
         tipoOrden = "DESC";
         if (vista == "lista") {
             ul.empty();
-            obtenerDatosGatos().then(function(datosGatos) {
-                renderizarLista(datosGatos);
-            });
-        }else{
+            renderizarLista(datosGatosGlobal.sort((a, b) => b[0].breeds[0].name.localeCompare(a[0].breeds[0].name)));
+        } else {
             cuerpo.empty();
-            obtenerDatosGatos().then(function(datosGatos) {
-                renderizarTabla(datosGatos);
-            });
+            renderizarTabla(datosGatosGlobal.sort((a, b) => b[0].breeds[0].name.localeCompare(a[0].breeds[0].name)));
         }
-       
-    })
+    });
+    
+    
 
     cerrarSesion.click((evento) => {
         evento.preventDefault();
@@ -209,20 +220,7 @@ $(document).ready(function() {
     
                     // Esperar a que todas las promesas de imágenes se resuelvan
                     $.when.apply($, promesasImagenes).then(function() {
-                        // Ordenar las respuestas de las razas por nombre de raza
-                        respuestaRazas.sort(function(a, b) {
-                            let nombreA = a[0].breeds[0].name.toLowerCase();
-                            let nombreB = b[0].breeds[0].name.toLowerCase();
                         
-                            if (tipoOrden === "ASC") {
-                                return nombreA.localeCompare(nombreB);
-                            } else if (tipoOrden === "DESC") {
-                                return nombreB.localeCompare(nombreA);
-                            } else {
-                                return 0; // No hay cambio en el orden si el tipo de orden no es válido
-                            }
-                        });
-    
                         // Resolver la promesa con las respuestas ordenadas
                         resolve(respuestaRazas);
                         //si falla la obtencion de las imagenes se lanza el error
@@ -517,8 +515,6 @@ $(document).ready(function() {
     });
     
     // Cargar datos de gatos inicialmente
-    obtenerDatosGatos().then(function(datosGatos) {
-        renderizarLista(datosGatos);
-     });
+    obtenerYAlmacenarDatosGatos();
     
 });
