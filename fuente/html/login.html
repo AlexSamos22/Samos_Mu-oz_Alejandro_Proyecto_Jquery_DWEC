@@ -18,9 +18,9 @@
     <form id="login">
         <h2>LOGIN</h2>
         <label for="nombre">Nombre de usuario</label>
-        <input type="text" id="nombre" placeholder="Usuario">
+        <input type="text" id="nombreLogin" placeholder="Usuario">
         <label for="clave">Contraseña</label>
-        <input type="password" id="clave" placeholder="Contraseña">
+        <input type="password" id="claveLogin" placeholder="Contraseña">
         <button type="submit" id="inciar_sesion">Inicar sesion</button>
        <button id="abrir_registro">Registrarse</button>
     </form>
@@ -30,27 +30,35 @@
 
         <label for="usuario">Nombre de usuario</label>
         <input type="text" id="usuario" placeholder="Usuario" required>
+        <p id="error_usuario"></p>
 
         <label for="correo">Correo</label>
         <input type="email" id="correo" placeholder="correo" required>
+        <p id="error_correo"></p>
 
         <label for="Clave">Contraseña</label>
         <input type="password" id="Clave" placeholder="Contraseña" required>
+        <p id="error_contraseña"></p>
 
         <label for="Nombre">Nombre</label>
         <input type="text" id="Nombre" placeholder="Nombre" required>
+        <p id="error_Nombre"></p>
 
         <label for="apellidos">Apellidos</label>
         <input type="text" id="apellidos" placeholder="apellidos" required>
+        <p id="error_Apellidos"></p>
 
         <label for="telf">Telefono</label>
         <input type="number" id="telefono" placeholder="Telefono" required>
+        <p id="error_Telf"></p>
 
         <label for="edad">Edad</label>
         <input type="number" id="edad" placeholder="Edad" min="10" max="100" required>
+        <p id="error_Edad"></p>
 
         <label for="dni">DNI</label>
         <input type="text" id="dni" placeholder="DNI" required>
+        <p id="error_DNI"></p>
 
         <button type="submit" id="registarse">Registarse</button>
         <button id="abrir_login">Ya tienes una cuenta? Inicia Sesion</button>
