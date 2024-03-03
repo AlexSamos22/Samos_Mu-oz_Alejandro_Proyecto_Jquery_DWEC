@@ -20,10 +20,7 @@ $(document).ready(function() {
     //Funcion que comprueba si el usuario existe
     function comprobarUsuario_local(nombreUsuario, contrasena) {
         let usuarioGuardado = JSON.parse(localStorage.getItem(`${nombreUsuario}_gato`));
-        console.log(usuarioGuardado);
         if (usuarioGuardado) {
-            console.log(usuarioGuardado.contrasena);
-            console.log(contrasena);
             if (usuarioGuardado.contrasena === contrasena) {
                 return true;
             } else {
@@ -48,7 +45,6 @@ $(document).ready(function() {
                 alert("Sesion iniciada");
 
                 let sesionNombreUsuario = JSON.parse(localStorage.getItem(`${nombre_usuario}_gato`));
-                console.log(sesionNombreUsuario);
                 let listaFavoritos = [];
 
                 if (sesionNombreUsuario) {
