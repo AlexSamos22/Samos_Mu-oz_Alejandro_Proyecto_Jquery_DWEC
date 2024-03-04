@@ -515,7 +515,9 @@ $(document).ready(function() {
 
     // Evento para el escroll infinito dependiendo de la vista actual
     $(window).scroll(function() {
-        if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+        console.log("estoy aqui")
+        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 10) {
+            console.log("estoy aqui");
             // Si se llega al final de la página, cargar más datos de gatos
             if (vista == "lista") {
                 obtenerDatosGatos().then(function(datosGatos) {
