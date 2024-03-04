@@ -12,6 +12,7 @@ $(document).ready(function() {
     var tablaGatos = $("<table>").addClass("tabla-gatos");
     let cuerpo = $("<tbody>");
     let ul = $("<ul>").addClass("lista-gatos");
+    let masGatos = false;
 
     let datosGatosGlobal = [];
 
@@ -515,18 +516,21 @@ $(document).ready(function() {
 
     // Evento para el escroll infinito dependiendo de la vista actual
     $(window).scroll(function() {
-        console.log("estoy aqui")
-        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 10) {
-            console.log("estoy aqui");
+        if (!masGatos && ($(window).scrollTop() + $(window).height()) >= $(document).height() - 10) {
             // Si se llega al final de la página, cargar más datos de gatos
             if (vista == "lista") {
+                masGatos = true;
                 obtenerDatosGatos().then(function(datosGatos) {
-                    addElementoALista(datosGatos)
-                 });
+                    addElementoALista(datosGatos);
+                    masGatos = false;
+                });
             }else{
+                masGatos = true;
                 obtenerDatosGatos().then(function(datosGatos) {
-                    addFilaTabla(datosGatos)
-                 });
+                    addFilaTabla(datosGatos);
+                    masGatos = false;
+                });
+               
             }
         }
     });
